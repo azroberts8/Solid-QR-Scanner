@@ -1,27 +1,35 @@
-import type { Component } from 'solid-js';
-
-import logo from './logo.svg';
-import styles from './App.module.css';
+import { Component, onMount, onCleanup, createSignal } from 'solid-js';
+import QrScanner from 'qr-scanner';
 
 const App: Component = () => {
+  let videoRef: HTMLVideoElement | undefined;
+  const [QrData, setQrData] = createSignal<string | null>(null);
+  let scanner: QrScanner | null = null;
+
+  onMount(() => {
+    if(videoRef) {
+      scanner = new QrScanner(
+        videoRef,
+        (res) => setQrData(res)
+      );
+      scanner.start();
+    }
+  });
+
+  onCleanup(() => {
+    scanner?.stop();
+  })
+
   return (
-    <div class={styles.App}>
-      <header class={styles.header}>
-        <h1 class="text-3xl font-bold underline">Hello World!</h1>
-        <img src={logo} class={styles.logo} alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          class={styles.link}
-          href="https://github.com/solidjs/solid"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn Solid
-        </a>
-      </header>
-    </div>
+    <>
+      <div>
+        <video ref={videoRef} class="w-full h-full aspect-square"></video>
+      </div>
+      <div>
+        <h1>QR Code Scanner</h1>
+        <p>QR Code Content: {QrData()}</p>
+      </div>
+    </>
   );
 };
 
