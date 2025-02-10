@@ -27,13 +27,6 @@ jobs:
         run: npm run build
 
       - name: Deploy to GitHub Pages
-        run: |
-          git config --global user.name ${user_name}
-          git config --global user.email ${user_email}
-          git remote set-url origin https://${github_token}@github.com/${repository}
-          npm run deploy
         env:
-          user_name: "github-actions[bot]"
-          user_email: "github-actions[bot]@users.noreply.github.com"
-          github_token: ${{ secrets.GH_TOKEN }}
-          repository: ${{ github.repository }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run deploy
