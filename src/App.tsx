@@ -22,8 +22,8 @@ const App: Component = () => {
 
   return (
     <>
-      <div>
-        <video ref={videoRef} class="w-full h-full aspect-square"></video>
+      <div class="w-full h-full max-w-md max-h-md aspect-square overflow-hidden">
+        <video ref={videoRef} class="min-h-full min-w-full object-cover"></video>
       </div>
       <div>
         <h1>QR Code Scanner</h1>

@@ -7,6 +7,7 @@ export default defineConfig({
     tailwindcss(),
     solidPlugin()
   ],
+  base: "/Solid-QR-Scanner/",
   server: {
     port: 3000,
   },
